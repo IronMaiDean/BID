@@ -1,0 +1,228 @@
+﻿@model IEnumerable<BID_DLC.Models.Employee>
+@{
+    ViewBag.Title = "BID MVC Test";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+
+
+    <script type="text/javascript">
+
+        window.onload = function () {
+
+            GetEmployees();
+            PopulateEmployeeSelect();
+        }
+
+    </script>
+
+    <script>
+
+        function PopulateEmployeeSelect() {
+
+            $.ajax(
+                {
+                    url: 'http://localhost:63727/api/Employee/',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+
+                        $("#cmbEmployee option").remove();
+
+                        $.each(data, function (i, employee) {
+                            $("#cmbEmployee").append(
+                                $("<option></option>")
+                                    .text(employee.DisplayName)
+                                    .val(employee.Employee_ID)
+                            );
+                        });
+                    }
+                }
+            )
+        }
+
+        function GetEmployees() {
+
+            $.ajax(
+                {
+                    url: 'http://localhost:63727/api/Employee/',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var $employees = '';
+
+                        $.each(data, function (i, employee) {
+                            $employees = $employees + '<tr>';
+                            $employees = $employees + '<td>' + employee.Employee_ID + '</td>';
+                            $employees = $employees + '<td>' + employee.DisplayName + '</td>';
+                            $employees = $employees + '<td>' + employee.TotalHoursApril + '</td>';
+                            $employees = $employees + '<td>' + employee.TotalHoursMay + '</td>';
+                            $employees = $employees + '</tr>';
+                        });
+
+                        $('#employeeResults').html($employees)
+                    }
+                }
+            )
+        }
+
+        function GetEmployee(id) {
+
+            $.ajax(
+                {
+                    url: 'http://localhost:63727/api/Employee/' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        var $employees = '';
+
+                        $.each(data, function (i, employee) {
+                            $employees = $employees + '<tr>';
+                            $employees = $employees + '<td>' + employee.Employee_ID + '</td>';
+                            $employees = $employees + '<td>' + employee.DisplayName + '</td>';
+                            $employees = $employees + '<td>' + employee.TotalHoursApril + '</td>';
+                            $employees = $employees + '<td>' + employee.TotalHoursMay + '</td>';
+                            $employees = $employees + '</tr>';
+                        });
+
+                        $('#employeeResults').html($employees)
+                    }
+                }
+            )
+        }
+
+    </script>
+
+    <style type="text/css">
+
+        *{
+            font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        div.grid table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0px;
+            border: 0;
+        }
+
+        div.grid table tbody tr:hover {
+            background-color: #f8f8f8;
+        }
+
+        div.grid.inline-grid {
+            width: 100%;
+            margin-top: 0px;
+            flex-grow: 1;
+            overflow: auto;
+            border-top: 0;
+        }
+
+        div.grid.inline-grid table thead {
+            line-height: normal;
+            border-bottom: solid 1px rgba(0,0,0,0.35);
+        }
+
+        div.grid.inline-grid table thead tr td {
+            vertical-align: bottom;
+            color: #7e7e7e;
+            font-weight: 500;
+            line-height: normal;
+            font-size: 11.5px;
+            padding: 16px 8px;
+            white-space: nowrap;
+        }
+
+        div.grid.inline-grid table tbody td {
+            padding: 9px 8px 7px;
+        }
+
+    </style>
+
+    <style>
+
+        button {
+            border: solid 1px transparent;
+            background-color: #e4002b;
+            border-color: #e4002b;
+            font-weight: 500;
+            color: #FFF;
+            font-size: 12px;
+            padding: 0 20px;
+            margin: 0 3px;
+            line-height: 28px;
+            border-radius: 4px;
+            transition: all 0.3s;
+            cursor: pointer;
+            letter-spacing: -0.26px;
+        }
+
+        button:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        button:hover {
+            background-color: #e4002b;
+            border-color: #e4002b;
+        }
+
+        select {
+            border: 0;
+            resize: none;
+            width: 100%;
+            height: 28px;
+            font-size: 15px;
+            line-height: 1.4285;
+            color: #1c2e36;
+            padding-left: 4px;
+            font-weight: 500;
+            border: solid 1px #d7d7d7;
+            border-radius: 2px;
+            letter-spacing: -0.32px;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+
+        <div class="header">
+            <h2>Employees</h2>
+        </div>
+
+        <div style="float:left;">
+            <button onclick="GetEmployees();">Get ALL Employees</button>
+        </div>
+        <div style="float:right;">
+            <select id="cmbEmployee" name="cmbEmployee" style="width:200px;"></select>
+            <button onclick="GetEmployee(cmbEmployee.value);">Get Employee</button>
+        </div>
+
+        <div class="grid inline-grid">
+
+            <table>
+                <thead>
+                    <tr>
+                        <td>Employee ID</td>
+                        <td>Fullname</td>
+                        <td>Total Hours (April)</td>
+                        <td>Total Hours (May)</td>
+                    </tr>
+                </thead>
+                <tbody id="employeeResults">
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+
