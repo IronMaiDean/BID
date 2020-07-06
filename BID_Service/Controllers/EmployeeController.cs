@@ -28,13 +28,13 @@ namespace BID_Service.Controllers{
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public HttpResponseMessage GetEmployees(int id)
+        public HttpResponseMessage GetEmployee(int id)
         {
 
             HttpResponseMessage oResponse;
 
             Employee oEmployee = new Employee();
-            oResponse = Request.CreateResponse(HttpStatusCode.OK, oEmployee.GetEmployees(id));
+            oResponse = Request.CreateResponse(HttpStatusCode.OK, oEmployee.GetEmployee(id));
             return oResponse;
 
 

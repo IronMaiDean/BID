@@ -79,7 +79,7 @@ namespace BID_DLC.Models
 
         }
 
-        public List<Employee> GetEmployees(int id)
+        public List<Employee> GetEmployee(int id)
         {
 
             List<Employee> employees = new List<Employee>();
